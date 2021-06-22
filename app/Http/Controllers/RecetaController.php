@@ -32,7 +32,11 @@ class RecetaController extends Controller
      */
     public function create()
     {
-        return view('recetas.create');
+        // PARA IR PROBANDO es el dd();
+        //DB::table('categorias_recetas')->get()->dd();
+        $categorias=DB::table('categorias_recetas')->get()->pluck('nombre', 'id');
+        return view('recetas.create')->with('categorias',$categorias);
+        //return view('recetas.create');
     }
 
     /**
@@ -43,14 +47,15 @@ class RecetaController extends Controller
      */
     public function store(Request $request)
     {
-        
-        
         //USO DEL FASAT
         $data = $request->validate([
-            'nombre'=> 'required|min:6'
+            'nombre'=> 'required|min:6',
+            'categorias'=> 'required'
+
         ]);
         DB::table('recetas')-> insert([
-            'nombre' => $data['nombre']
+            'nombre' => $data['nombre'],
+            'categoria_id' => $data['categorias']
         ]);
         // nos da una simulacion, permitiendo capturar la info q se esta enviando
         //dd($request->all());
