@@ -1,5 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
 @charset "UTF-8";
+trix-editor {
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors

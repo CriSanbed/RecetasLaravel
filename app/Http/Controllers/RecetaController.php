@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RecetaController extends Controller
@@ -47,15 +48,30 @@ class RecetaController extends Controller
      */
     public function store(Request $request)
     {
+        // Prueba para saber q nomas se esta enviando
+        //dd($request->all());
+        
+        
+        
         //USO DEL FASAT
         $data = $request->validate([
             'nombre'=> 'required|min:6',
-            'categorias'=> 'required'
+            'categorias'=> 'required',
+            'ingredientes'=> 'required',
+            'preparacion'=> 'required',
+            //'imagen'=> 'required|image'
 
         ]);
+        //ruta imagen
+        $ruta_imagen = $request['imagen']->store('upload-recetas', 'public');
+
         DB::table('recetas')-> insert([
             'nombre' => $data['nombre'],
-            'categoria_id' => $data['categorias']
+            'ingredientes' => $data['ingredientes'],
+            'preparacion' => $data['preparacion'],
+            'imagen' => $ruta_imagen,
+            'user_id' => Auth::user()->id,
+            'categoria_id' => $data['categorias'],
         ]);
         // nos da una simulacion, permitiendo capturar la info q se esta enviando
         //dd($request->all());
