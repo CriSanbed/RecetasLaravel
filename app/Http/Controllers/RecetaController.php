@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoriaReceta;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class RecetaController extends Controller
 {
@@ -23,7 +25,8 @@ class RecetaController extends Controller
      */
     public function index()
     {
-        return view('recetas.index');
+        $userRecetas = Auth::user()->userRecetas;
+        return view('recetas.index')->with('userRecetas', $userRecetas);
     }
 
     /**
@@ -35,7 +38,11 @@ class RecetaController extends Controller
     {
         // PARA IR PROBANDO es el dd();
         //DB::table('categorias_recetas')->get()->dd();
-        $categorias=DB::table('categorias_recetas')->get()->pluck('nombre', 'id');
+        //OBTENER SIN MODELO
+        $categorias=DB::table('categoria_recetas')->get()->pluck('nombre', 'id');
+
+        //OBTENER CON MODELO
+        //$categorias=CategoriaReceta::all(['id', 'nombre']);
         return view('recetas.create')->with('categorias',$categorias);
         //return view('recetas.create');
     }
@@ -64,6 +71,9 @@ class RecetaController extends Controller
         ]);
         //ruta imagen
         $ruta_imagen = $request['imagen']->store('upload-recetas', 'public');
+        //redimensionando la imagen
+        $img = Image::make(public_path("storage/{$ruta_imagen}"))->fit(1000,550);
+        $img -> save();
 
         DB::table('recetas')-> insert([
             'nombre' => $data['nombre'],
