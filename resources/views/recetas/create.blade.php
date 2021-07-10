@@ -33,8 +33,8 @@
                 <label for="nombre">Categoria</label>
                 <select name="categorias" class="form-control @error('categorias') is-invalid @enderror" id="categorias">
                     <option value="" disabled selected>--Seleccione--</option>
-                    @foreach($categorias as $id => $categoria)
-                    <option value={{$id}} {{old('categorias')==$id ? 'selected' : ''}}>{{$categoria}}</option>
+                    @foreach($categorias as $categoria)
+                    <option value={{$categoria -> id}} {{old('categorias')==$categoria->id ? 'selected' : ''}}>{{$categoria->nombre}}</option>
                     @endforeach
                 </select>
                 @error('categorias')
@@ -93,5 +93,5 @@
 
 {{-- SCRIPTS --}}
 @section('script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js" integrity="sha512-/1nVu72YEESEbcmhE/EvjH/RxTg62EKvYWLG3NdeZibTCuEtW5M4z3aypcvsoZw03FAopi94y04GhuqRU9p+CQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js" integrity="sha512-/1nVu72YEESEbcmhE/EvjH/RxTg62EKvYWLG3NdeZibTCuEtW5M4z3aypcvsoZw03FAopi94y04GhuqRU9p+CQ==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 @endsection

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CategoriaReceta;
+use App\Models\Receta;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
+use App\Models\CategoriaReceta;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -16,7 +17,7 @@ class RecetaController extends Controller
     public function __construct()
     {
         //verificar si hay una instancia para generar una nueva
-        $this->middleware('auth');
+        $this->middleware('auth', ['except'=>'show']);
     }
     /**
      * Display a listing of the resource.
@@ -39,10 +40,12 @@ class RecetaController extends Controller
         // PARA IR PROBANDO es el dd();
         //DB::table('categorias_recetas')->get()->dd();
         //OBTENER SIN MODELO
-        $categorias=DB::table('categoria_recetas')->get()->pluck('nombre', 'id');
+        //$categorias=DB::table('categoria_recetas')->get()->pluck('nombre', 'id');
 
         //OBTENER CON MODELO
-        //$categorias=CategoriaReceta::all(['id', 'nombre']);
+        //para ver q estoy pasando dd()
+        //$categorias=CategoriaReceta::all(['id', 'nombre'])->dd();
+        $categorias=CategoriaReceta::all(['id', 'nombre']);
         return view('recetas.create')->with('categorias',$categorias);
         //return view('recetas.create');
     }
@@ -75,14 +78,25 @@ class RecetaController extends Controller
         $img = Image::make(public_path("storage/{$ruta_imagen}"))->fit(1000,550);
         $img -> save();
 
-        DB::table('recetas')-> insert([
+        //INSERTAR SIN MODELO
+        /* DB::table('recetas')-> insert([
             'nombre' => $data['nombre'],
             'ingredientes' => $data['ingredientes'],
             'preparacion' => $data['preparacion'],
             'imagen' => $ruta_imagen,
             'user_id' => Auth::user()->id,
             'categoria_id' => $data['categorias'],
+        ]); */
+
+        //INSERTAR CON MODELO
+        Auth::user()->userRecetas()-> create([
+            'nombre' => $data['nombre'],
+            'ingredientes' => $data['ingredientes'],
+            'preparacion' => $data['preparacion'],
+            'imagen' => $ruta_imagen,
+            'categoria_id' => $data['categorias'],
         ]);
+
         // nos da una simulacion, permitiendo capturar la info q se esta enviando
         //dd($request->all());
 
@@ -96,9 +110,9 @@ class RecetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Receta $receta)
     {
-        //
+        return view('recetas.show')->with('receta', $receta);
     }
 
     /**

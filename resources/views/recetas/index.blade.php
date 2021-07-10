@@ -19,7 +19,7 @@
             @foreach($userRecetas as $userReceta)
             <tr>
                 <td>{{$userReceta->nombre}}</td>
-                <td>{{$userReceta->categoria_id}}</td>
+                <td>{{$userReceta->categoriaReceta->nombre}}</td>
                 <td>
                     <a href="" class="btn btn-success">Ver</a>
                     <a href="" class="btn btn-dark">Editar</a>
