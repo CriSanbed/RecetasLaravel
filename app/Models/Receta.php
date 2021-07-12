@@ -16,15 +16,18 @@ class Receta extends Model
         'categoria_id'
     ];
 
-    
+
     //OBTENER LA CATEGORIA MEDIANTE LA CLAVE FORANEA
-    public function categoriaReceta(){
+    public function categoriaReceta()
+    {
         //relacion de 1 : 1
         return $this->belongsTo(CategoriaReceta::class, 'categoria_id');
+
     }
-    
+
     //OBTENER EL AUTOR MEDIANTE LA CLAVE FORANEA
-    public function autorReceta(){
+    public function autorReceta()
+    {
         //relacion de 1 : 1
         return $this->belongsTo(User::class, 'user_id');
     }
