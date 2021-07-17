@@ -12,18 +12,20 @@
 @endsection
 
 @section('content')
-    <h2 class="text-center mb-3">Crear nuevas Recetas</h2>
+{{--    {{$receta}}--}}
+    <h2 class="text-center mb-3">Editar Receta: {{$receta ->nombre}}</h2>
     {{-- {{$categorias}} --}}
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-            <form method="POST" action={{route('recetas.store')}} enctype="multipart/form-data" novalide>
+            <form method="POST" action={{route('recetas.update', ['receta'=>$receta->id])}} enctype="multipart/form-data" novalide>
                 @csrf
-
+{{--                PARA QUE HTML SOPORTE PUT--}}
+                @method('PUT')
                 {{-- NOMBRE RECETA --}}
                 <div class="form-group">
                     <label for="nombre">Nombre Receta</label>
                     <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror"
-                           id="nombre" placeholder="Ingresa el nombre de la receta" value="{{old('nombre')}}">
+                           id="nombre" value="{{$receta->nombre}}">
                     @error('nombre')
                     <span class='invalid-feedback d-block' role='alert'>
                     <strong>{{$message}}</strong>
@@ -39,7 +41,7 @@
                         <option value="" disabled selected>--Seleccione--</option>
                         @foreach($categorias as $categoria)
                             <option
-                                value={{$categoria -> id}} {{old('categorias')==$categoria->id ? 'selected' : ''}}>{{$categoria->nombre}}</option>
+                                value={{$categoria -> id}} {{$receta->categoria_id==$categoria->id ? 'selected' : ''}}>{{$categoria->nombre}}</option>
                         @endforeach
                     </select>
                     @error('categorias')
@@ -52,7 +54,7 @@
                 {{-- INGREDIENTES --}}
                 <div class="form-group mt-3">
                     <label for="ingredientes">Ingredientes</label>
-                    <input id="ingredientes" type="hidden" name="ingredientes" value="{{old('ingredientes')}}">
+                    <input id="ingredientes" type="hidden" name="ingredientes" value="{{$receta->ingredientes}}">
                     <trix-editor class="form-control @error('ingredientes') is-invalid @enderror"
                                  input="ingredientes"></trix-editor>
                     @error('ingredientes')
@@ -65,7 +67,7 @@
                 {{-- PREPARACION --}}
                 <div class="form-group mt-3">
                     <label for="preparacion">Preparacion</label>
-                    <input id="preparacion" type="hidden" name="preparacion" value="{{old('preparacion')}}">
+                    <input id="preparacion" type="hidden" name="preparacion" value="{{$receta->preparacion}}">
                     <trix-editor class="form-control @error('preparacion') is-invalid @enderror"
                                  input="preparacion"></trix-editor>
                     @error('preparacion')
@@ -81,18 +83,22 @@
                     <label for="imagen">Imagen</label>
                     <input id="imagen" type="file" class="form-control @error('imagen') is-invalid @enderror"
                            name="imagen">
+                    <div class="mt-4">
+                        <p>Imagen actual</p>
+                        <img src="/storage/{{$receta->imagen}}" style="width: 300px">
+                    </div>
                     @error('imagen')
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>
                     </span>
                     @enderror
-
-
-
-                {{-- BOTON PARA AGREGAR --}}
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="AGREGAR RECETA">
                 </div>
+
+
+                    {{-- BOTON PARA AGREGAR --}}
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="EDITAR RECETA">
+                    </div>
             </form>
         </div>
     </div>

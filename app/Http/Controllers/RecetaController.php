@@ -12,7 +12,7 @@ use Intervention\Image\Facades\Image;
 
 class RecetaController extends Controller
 {
-    
+
     //CONSTRUCTOR
     public function __construct()
     {
@@ -60,16 +60,16 @@ class RecetaController extends Controller
     {
         // Prueba para saber q nomas se esta enviando
         //dd($request->all());
-        
-        
-        
+
+
+
         //USO DEL FASAT
         $data = $request->validate([
             'nombre'=> 'required|min:6',
             'categorias'=> 'required',
             'ingredientes'=> 'required',
             'preparacion'=> 'required',
-            //'imagen'=> 'required|image'
+            'imagen'=> 'required|image'
 
         ]);
         //ruta imagen
@@ -121,9 +121,12 @@ class RecetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Receta $receta)
     {
-        //
+        //return $receta;
+        $categorias=CategoriaReceta::all(['id', 'nombre']);
+        return view('recetas.edit')->with('categorias', $categorias)
+                                         ->with('receta', $receta);
     }
 
     /**
@@ -133,9 +136,39 @@ class RecetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Receta $receta)
     {
-        //
+//       return $receta;
+
+        $data = $request->validate([
+            'nombre'=> 'required|min:6',
+            'categorias'=> 'required',
+            'ingredientes'=> 'required',
+            'preparacion'=> 'required',
+
+        ]);
+
+//        ASIGNAR VALORES
+//        DATA RECIBE NOMBRE QUE ES EL NOMBRE QUE PUSE EN LOS ID DEL EDIT RECETA
+        $receta->nombre = $data['nombre'];
+        $receta->categoria_id = $data['categorias'];
+        $receta->ingredientes = $data['ingredientes'];
+        $receta->preparacion = $data['preparacion'];
+//        NUEVA IMAGEN
+        if (request('imagen')){
+//            guardar la imagen en nuestro store
+            $ruta_imagen = $request['imagen']->store('upload-recetas', 'public');
+//            despues aplicanos estilo
+            $img = Image::make(public_path("storage/{$ruta_imagen}"))->fit(1000,550);
+            $img -> save();
+            $receta->imagen=$ruta_imagen;
+        }
+
+//        GUARDAR INFO
+        $receta->save();
+
+//        REDIRECCIONAR
+        return redirect() -> action([RecetaController::class, 'index']);
     }
 
     /**
