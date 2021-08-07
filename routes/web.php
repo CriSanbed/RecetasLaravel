@@ -29,6 +29,8 @@ Route::post('/recetas', [RecetaController::class, 'store']) -> name('recetas.sto
 Route::get('/recetas/{receta}', [RecetaController::class, 'show']) -> name('recetas.show');
 Route::get('/recetas/{receta}/edit', [RecetaController::class, 'edit']) -> name('recetas.edit');
 Route::put('/recetas/{receta}', [RecetaController::class, 'update']) -> name('recetas.update');
+Route::delete('/recetas/{receta}', [RecetaController::class, 'destroy']) -> name('recetas.destroy');
+
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

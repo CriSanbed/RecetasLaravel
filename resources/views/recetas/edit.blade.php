@@ -12,14 +12,15 @@
 @endsection
 
 @section('content')
-{{--    {{$receta}}--}}
+    {{--    {{$receta}}--}}
     <h2 class="text-center mb-3">Editar Receta: {{$receta ->nombre}}</h2>
     {{-- {{$categorias}} --}}
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-            <form method="POST" action={{route('recetas.update', ['receta'=>$receta->id])}} enctype="multipart/form-data" novalide>
+            <form method="POST"
+                  action={{route('recetas.update', ['receta'=>$receta->id])}} enctype="multipart/form-data" novalidate>
                 @csrf
-{{--                PARA QUE HTML SOPORTE PUT--}}
+                {{--PARA QUE HTML SOPORTE PUT--}}
                 @method('PUT')
                 {{-- NOMBRE RECETA --}}
                 <div class="form-group">
@@ -47,7 +48,7 @@
                     @error('categorias')
                     <span class='invalid-feedback d-block' role='alert'>
                     <strong>{{$message}}</strong>
-                                    </span>
+                    </span>
                     @enderror
                 </div>
 
@@ -59,8 +60,8 @@
                                  input="ingredientes"></trix-editor>
                     @error('ingredientes')
                     <span class='invalid-feedback d-block' role='alert'>
-                    <strong>{{$message}}</strong>
-                </span>
+                        <strong>{{$message}}</strong>
+                    </span>
                     @enderror
                 </div>
 
@@ -95,10 +96,10 @@
                 </div>
 
 
-                    {{-- BOTON PARA AGREGAR --}}
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="EDITAR RECETA">
-                    </div>
+                {{-- BOTON PARA EDITAR --}}
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="EDITAR RECETA">
+                </div>
             </form>
         </div>
     </div>
@@ -111,3 +112,4 @@
             integrity="sha512-/1nVu72YEESEbcmhE/EvjH/RxTg62EKvYWLG3NdeZibTCuEtW5M4z3aypcvsoZw03FAopi94y04GhuqRU9p+CQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 @endsection
+

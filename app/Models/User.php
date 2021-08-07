@@ -46,8 +46,9 @@ class User extends Authenticatable
     // RELACION= 1:n usuario-Recetas
     // un usuario puede tener multiples recetas
 
-    public function userRecetas(){
-        return $this -> hasMany(Receta::class);
+    public function userRecetas()
+    {
+        return $this->hasMany(Receta::class);
 
     }
 }

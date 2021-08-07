@@ -19,15 +19,15 @@ class CreateRecetasTable extends Migration
             $table->string('nombre');
             $table->timestamps();
         });
-        
+
         //SCHEMA PARA USUARIOS
         Schema::create('categorias_recetas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->timestamps();
         });
-        
-        
+
+
 
         Schema::create('recetas', function (Blueprint $table) {
             $table->id();
@@ -36,11 +36,11 @@ class CreateRecetasTable extends Migration
             $table->text('preparacion')->nullable();
             $table->string('imagen')->nullable();
             $table->foreignId('user_id')->references('id')->on('users')->comment('El usuario que crea la receta');
-            $table->foreignId('categoria_id')->references('id')->on('categoria_recetas')->comment('Categoria de la receta');
+            $table->foreignId('categoria_id')->references('id')->on('categorias_recetas')->comment('Categoria de la receta');
             $table->timestamps();
         });
-        
-        
+
+
     }
 
     /**
@@ -52,6 +52,6 @@ class CreateRecetasTable extends Migration
     {
         Schema::dropIfExists('recetas');
         Schema::dropIfExists('categoria_recetas');
-       
+
     }
 }
