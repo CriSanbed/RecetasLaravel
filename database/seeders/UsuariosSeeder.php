@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,19 +16,21 @@ class UsuariosSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        $user=User::create([
             'name'=>'Cristian',
             'email'=> 'crisanbed@gmail.com',
             'password'=>Hash::make('acorazado'),
-            'created_at' => date('y-m-d H:m:s'),
-            'updated_at' => date('y-m-d H:m:s')
+            'url'=>'https://laravel.com/',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
         ]);
-        DB::table('users')->insert([
+        $user=User::create([
             'name'=>'Carlos',
             'email'=> 'carlos@gmail.com',
             'password'=>Hash::make('123456789'),
-            'created_at' => date('y-m-d H:m:s'),
-            'updated_at' => date('y-m-d H:m:s')
+            'url'=>'https://laravel.com/',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
         ]);
     }
 }
