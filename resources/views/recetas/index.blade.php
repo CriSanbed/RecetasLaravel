@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('botones')
-    <a class="btn btn-primary" href="{{route('recetas.create')}}" xmlns="http://www.w3.org/1999/html">Crear Receta</a>
+    @include('ui.navegacion')
 @endsection
 
 @section('content')

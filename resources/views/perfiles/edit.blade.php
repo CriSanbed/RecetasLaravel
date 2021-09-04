@@ -7,7 +7,7 @@
 @endsection
 
 @section('botones')
-    <a class="btn btn-primary" href="{{route('recetas.index')}}">Volver a Recetas</a>
+    @include('ui.listarecetas')
 @endsection
 
 @section('content')
@@ -60,7 +60,7 @@
                     @if($perfil->imagen != null)
                         <div class="mt-4">
                             <p>Imagen actual</p>
-                            {{--}}<img src="/storage/{{$receta->imagen}}" style="width: 300px">--}}
+                            <img src="/storage/{{$perfil->imagen}}" style="width: 300px">
                         </div>
                     @endif
 

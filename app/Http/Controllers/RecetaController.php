@@ -23,12 +23,14 @@ class RecetaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
+//        $usuario = Auth::user();
         $userRecetas = Auth::user()->userRecetas;
-        return view('recetas.index')->with('userRecetas', $userRecetas);
+        return view('recetas.index')    ->with('userRecetas', $userRecetas);
+//                                              ->with('usuario', $usuario);
     }
 
     /**
@@ -123,6 +125,9 @@ class RecetaController extends Controller
      */
     public function edit(Receta $receta)
     {
+        //verificacion del POLICY
+        $this->authorize('view', $receta);
+
         //return $receta;
         $categorias = CategoriaReceta::all(['id', 'nombre']);
         return view('recetas.edit')->with('categorias', $categorias)
