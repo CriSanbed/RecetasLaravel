@@ -10,7 +10,7 @@ use Intervention\Image\Facades\Image;
 class PerfilController extends Controller
 {
     //CONSTRUCTOR
-    public function _construct()
+    public function __construct()
     {
         $this->middleware('auth', ['except'=>'show']);
     }
