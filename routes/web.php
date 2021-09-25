@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PerfilController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecetaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,8 +41,9 @@ Route::get('/perfiles/{perfil}', [PerfilController::class, 'show'])->name('perfi
 Route::get('/perfiles/{perfil}/edit', [PerfilController::class, 'edit'])->name('perfiles.edit');
 Route::put('/perfiles/{perfil}', [PerfilController::class, 'update'])->name('perfiles.update');
 
-
+//like-recetas
+Route::post('/recetas/{receta}', [LikeController::class, 'update'])->name('likes.update');
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -27,9 +27,14 @@ class RecetaController extends Controller
      */
     public function index()
     {
-//        $usuario = Auth::user();
-        $userRecetas = Auth::user()->userRecetas;
-        return view('recetas.index')    ->with('userRecetas', $userRecetas);
+        $usuario = Auth::user()->id;
+        $userRecetas = Receta::where('user_id', $usuario)->paginate(2);
+        //$userRecetas = Auth::user()->userRecetas;
+
+        //Recetas que le gusta al usuario
+        $iLikes = Auth::user()->iLike;
+        return view('recetas.index')->with('userRecetas', $userRecetas)
+                                            ->with('iLikes', $iLikes);
 //                                              ->with('usuario', $usuario);
     }
 
@@ -114,7 +119,14 @@ class RecetaController extends Controller
      */
     public function show(Receta $receta)
     {
-        return view('recetas.show')->with('receta', $receta);
+//        El metodo iLike me devuelve un arreglo con todos los me gusta, si el usuario autentificado dio like
+        $like = (Auth::user()) ? Auth::user()->iLike->contains($receta->id) : false;
+
+        //Cantidad de likes que tiene la receta actual por usuario
+        $likes = $receta->likes()->count();
+        return view('recetas.show')->with('receta', $receta)
+                                        ->with('like', $like)
+                                        ->with('likes', $likes);
     }
 
     /**

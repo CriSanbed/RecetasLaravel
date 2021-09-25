@@ -32,6 +32,13 @@ Vue.component(
     require("./components/EliminarReceta.vue").default
 );
 
+Vue.component(
+    "like-button",
+    require("./components/likeButton.vue").default
+);
+
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -41,3 +48,10 @@ Vue.component(
 const app = new Vue({
     el: "#app"
 });
+
+
+//jQuery like button
+$('.like-btn').on('click', function() {
+    $(this).toggleClass('like-active');
+});
+
