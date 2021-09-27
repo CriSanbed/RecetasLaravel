@@ -93,6 +93,7 @@
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="AGREGAR RECETA">
                     </div>
+                </div>
             </form>
         </div>
     </div>
